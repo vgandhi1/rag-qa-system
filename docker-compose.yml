@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  rag-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: rag-qa-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./sample_data:/app/sample_data:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Development service with hot reload
+  rag-api-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: rag-qa-api-dev
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ./app:/app/app:ro
+      - ./sample_data:/app/sample_data:ro
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    profiles:
+      - dev
