@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Q&A System</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    
+    <link href="/static/css/custom.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="bi bi-robot me-2"></i> RAG Q&A System
+            </a>
+            
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-sm btn-outline-light border-0" id="themeToggle" title="Toggle Dark Mode">
+                    <i class="bi bi-moon-stars-fill"></i>
+                </button>
+                <div class="vr bg-light opacity-50"></div>
+                <div id="healthStatus" class="text-white small d-flex align-items-center gap-2">
+                    <span class="status-dot checking"></span> <span class="d-none d-sm-inline">System Status</span>
+                </div>
+                <span class="badge bg-white text-primary rounded-pill">
+                    <i class="bi bi-database me-1"></i> <span id="docCount">-</span> docs
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4 mb-5" style="max-width: 1200px;">
+        
+        <ul class="nav nav-tabs mb-4" id="mainTabs" role="tablist">
+            <li class="nav-item"><button class="nav-link active" id="qa-tab" data-bs-toggle="tab" data-bs-target="#qa" type="button"><i class="bi bi-chat-dots me-2"></i>Chat Q&A</button></li>
+            <li class="nav-item"><button class="nav-link" id="docs-tab" data-bs-toggle="tab" data-bs-target="#documents" type="button"><i class="bi bi-file-earmark me-2"></i>Documents</button></li>
+            <li class="nav-item"><button class="nav-link" id="status-tab" data-bs-toggle="tab" data-bs-target="#status" type="button"><i class="bi bi-activity me-2"></i>Status</button></li>
+            <li class="nav-item"><button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button"><i class="bi bi-info-circle me-2"></i>Info</button></li>
+        </ul>
+
+        <div class="tab-content" id="mainTabContent">
+            
+            <div class="tab-pane fade show active" id="qa" role="tabpanel">
+                <div class="chat-layout">
+                    <div id="chatHistory" class="chat-history">
+                        <div class="chat-message ai-message">
+                            <div class="ai-bubble shadow-sm">
+                                <div class="message-content"><strong>Hello! 👋</strong><br>I've indexed your documents. Ask me anything about them!</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-area">
+                        <form id="queryForm">
+                            <div class="input-group input-group-lg shadow-sm mb-2">
+                                <textarea class="form-control border-0" id="questionInput" rows="1" placeholder="Type your question..." style="resize: none;"></textarea>
+                                <button type="submit" class="btn btn-primary px-4"><i class="bi bi-send-fill"></i></button>
+                            </div>
+                            <div class="d-flex justify-content-center gap-3">
+                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="includeSourcesCheck" checked><label class="form-check-label small text-muted">Sources</label></div>
+                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="useStreamingCheck" checked><label class="form-check-label small text-muted">Stream</label></div>
+                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="enableEvaluationCheck"><label class="form-check-label small text-muted">RAGAS Eval</label></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="documents" role="tabpanel">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="drop-zone mb-4" id="dropZone">
+                            <i class="bi bi-cloud-arrow-up display-4 text-primary"></i>
+                            <h5 class="mt-3">Drag & Drop Files</h5>
+                            <p class="text-muted small">PDF, TXT, CSV</p>
+                            <input type="file" id="fileInput" class="d-none" accept=".pdf,.txt,.csv">
+                            <button class="btn btn-outline-primary btn-sm">Browse</button>
+                        </div>
+                        <div id="uploadProgress" class="progress mb-3" style="display: none; height: 10px;"><div id="uploadProgressBar" class="progress-bar" style="width: 0%"></div></div>
+                        <div id="uploadResult"></div>
+                        <div class="text-end mt-4">
+                            <button id="deleteCollectionBtn" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i> Delete Collection</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="status" role="tabpanel">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="d-flex justify-content-between mb-3"><h4>System Status</h4><button id="refreshStatusBtn" class="btn btn-sm btn-light"><i class="bi bi-arrow-clockwise"></i></button></div>
+                        <div id="healthStatusContent"></div>
+                        <div id="readinessStatusContent"></div>
+                        <div class="text-center text-muted small mt-3">Last updated: <span id="lastUpdated">-</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="info" role="tabpanel">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="d-flex justify-content-between mb-3"><h4>Collection Info</h4><button id="refreshInfoBtn" class="btn btn-sm btn-light"><i class="bi bi-arrow-clockwise"></i></button></div>
+                        <div id="collectionInfoContent" class="row g-3"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.8/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/components.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
