@@ -4,6 +4,7 @@ from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from app.api.schemas import (
     DocumentListResponse,
+    DocumentNameListResponse,
     DocumentUploadResponse,
     ErrorResponse,
 )
@@ -100,6 +101,32 @@ async def get_collection_info() -> DocumentListResponse:
         raise HTTPException(
             status_code=500,
             detail=f"Error getting collection info: {str(e)}",
+        )
+
+
+@router.get(
+    "/list",
+    response_model=DocumentNameListResponse,
+    summary="List all uploaded documents",
+    description="Get a list of all unique document names that have been uploaded to the system.",
+)
+async def list_documents() -> DocumentNameListResponse:
+    """List all unique document names."""
+    logger.debug("Document list requested")
+
+    try:
+        vector_store = VectorStoreService()
+        document_names = vector_store.get_unique_document_names()
+
+        return DocumentNameListResponse(
+            documents=document_names,
+            count=len(document_names),
+        )
+    except Exception as e:
+        logger.error(f"Error listing documents: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error listing documents: {str(e)}",
         )
 
 

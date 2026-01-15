@@ -195,6 +195,106 @@ class VectorStoreService:
                 "status": "not_found",
             }
 
+    def get_all_documents(self, limit: int = 10000) -> list[Document]:
+        """Get all documents from the vector store.
+
+        Args:
+            limit: Maximum number of documents to retrieve
+
+        Returns:
+            List of all Document objects
+        """
+        logger.debug(f"Retrieving all documents (limit={limit})")
+        
+        try:
+            # Use scroll to get all points from Qdrant
+            points, _ = self.client.scroll(
+                collection_name=self.collection_name,
+                limit=limit,
+                with_payload=True,
+                with_vectors=False,  # We don't need vectors for metadata extraction
+            )
+            
+            documents = []
+            for point in points:
+                # LangChain Qdrant stores data in payload
+                # The structure may vary, so we handle both nested and flat structures
+                payload = point.payload or {}
+                
+                # Try to get page_content and metadata
+                # LangChain Qdrant may store them directly or nested
+                if isinstance(payload, dict):
+                    content = payload.get("page_content") or payload.get("content") or ""
+                    # Metadata might be nested or flat
+                    if "metadata" in payload:
+                        metadata = payload["metadata"]
+                    else:
+                        # If metadata is flat, extract it (excluding known fields)
+                        metadata = {k: v for k, v in payload.items() 
+                                  if k not in ["page_content", "content", "text"]}
+                else:
+                    content = ""
+                    metadata = {}
+                
+                doc = Document(page_content=content, metadata=metadata)
+                documents.append(doc)
+            
+            logger.debug(f"Retrieved {len(documents)} documents")
+            return documents
+        except Exception as e:
+            logger.error(f"Error retrieving all documents: {e}")
+            raise
+
+    def get_unique_document_names(self) -> list[str]:
+        """Get list of unique document names (sources) from the vector store.
+
+        Returns:
+            List of unique document filenames/sources
+        """
+        logger.debug("Retrieving unique document names")
+        
+        try:
+            documents = self.get_all_documents()
+            unique_sources = set()
+            
+            for doc in documents:
+                source = doc.metadata.get("source")
+                if source:
+                    unique_sources.add(source)
+            
+            unique_sources_list = sorted(list(unique_sources))
+            logger.info(f"Found {len(unique_sources_list)} unique document sources")
+            return unique_sources_list
+        except Exception as e:
+            logger.error(f"Error retrieving unique document names: {e}")
+            raise
+
+    def get_documents_by_source(self, source: str) -> list[Document]:
+        """Get all chunks from a specific document source.
+
+        Args:
+            source: Document source/filename
+
+        Returns:
+            List of Document objects from the specified source
+        """
+        logger.debug(f"Retrieving documents for source: {source}")
+        
+        try:
+            # Get all documents and filter by source in Python
+            # This is simpler and more reliable than Qdrant filtering
+            all_docs = self.get_all_documents()
+            filtered_docs = [
+                doc for doc in all_docs 
+                if doc.metadata.get("source") == source
+            ]
+            
+            logger.debug(f"Retrieved {len(filtered_docs)} chunks for source: {source}")
+            return filtered_docs
+        except Exception as e:
+            logger.error(f"Error retrieving documents by source: {e}")
+            raise
+
     def health_check(self) -> bool:
         """Check if vector store is healthy.
 

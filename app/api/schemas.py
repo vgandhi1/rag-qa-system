@@ -57,6 +57,13 @@ class DocumentListResponse(BaseModel):
     status: str = Field(..., description="Collection status")
 
 
+class DocumentNameListResponse(BaseModel):
+    """Response for listing document names."""
+
+    documents: list[str] = Field(..., description="List of unique document names/sources")
+    count: int = Field(..., description="Number of unique documents")
+
+
 # ============== Query Schemas ==============
 
 
