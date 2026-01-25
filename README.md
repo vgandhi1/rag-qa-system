@@ -14,6 +14,14 @@
 
 ---
 
+<div align="center">
+
+![RAG Q&A System Demo](./rag-qa.gif)
+
+</div>
+
+---
+
 ## 📖 Overview
 
 A production-ready FastAPI application for document question-answering using Retrieval-Augmented Generation (RAG). This system allows users to upload documents, process them into vector embeddings, and query them using natural language questions with AI-powered answers.
