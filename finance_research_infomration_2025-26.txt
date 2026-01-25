@@ -1,0 +1,152 @@
+# Financial Operations & Investment Planning Guide (2025-2026)
+
+**Version:** 1.3 (Comprehensive Knowledge Base Expansion)
+**Category:** Internal Knowledge Base / RAG Source Document
+
+## 1. Overview of Equity Instruments
+
+This section defines how ownership in a company works. Think of equity as "owning a piece of the pie."
+
+* **Common Stock:** The most basic form of ownership.
+
+  * **Novice Explanation:** If a company is a pizza, a share is one slice. If the pizza gets bigger (company grows), your slice is worth more.
+
+  * **Key Rights:** You get to vote on company leaders and have a claim on assets if the company is sold.
+
+* **Preferred Stock:** A hybrid between a stock and a bond.
+
+  * **Novice Explanation:** You are a "VIP" owner. You get paid your "allowance" (dividends) before common stockholders, but you usually don't get to vote on how the company is run.
+
+* **Market Capitalization:** A way to measure a company's total "size" or "price tag."
+
+  * **Formula:** `Current Stock Price × Total Number of Shares`.
+
+  * **Large-cap (>$10B):** Established giants (e.g., Apple). Usually safer but grow slower.
+
+  * **Mid-cap ($2B–$10B):** Companies in the middle. Moderate risk and growth.
+
+  * **Small-cap (<$2B):** Newer, smaller companies. High risk, but high potential for "explosive" growth.
+
+## 2. Derivatives and Options Strategy
+
+Options are like "coupons" or "insurance policies" for stocks. They let you lock in a price today for a transaction in the future.
+
+* **Call Options (The "Buy" Coupon):**
+
+  * **Novice Explanation:** Imagine a store sells a laptop for $1,000. You buy a "Call Option" (coupon) that lets you buy it for $1,000 for the next month. If the laptop price jumps to $1,500, your coupon is very valuable because you can still buy it for $1,000.
+
+* **Put Options (The "Insurance Policy"):**
+
+  * **Novice Explanation:** You own a laptop worth $1,000. You buy a "Put Option" that lets you sell it for $1,000 even if the market crashes. If the laptop value drops to $400, your policy is great because you can still sell it for $1,000.
+
+* **Option Greeks (The "Risk Thermometers"):**
+
+  * **Delta:** How much the option price moves when the stock moves $1.
+
+  * **Theta (Time Decay):** Options have expiration dates. Theta measures how much value the option loses every day as it gets closer to "spoiling" (expiring).
+
+* **0DTE (Zero Days to Expiration):** High-stakes trading where options expire the very same day they are bought. Extremely risky for beginners.
+
+## 3. Employee Equity & Restricted Stock
+
+How companies pay employees using "future ownership" instead of just cash.
+
+* **RSUs (Restricted Stock Units):**
+
+  * **The Concept:** The company promises you 100 shares, but you only get them if you stay for a certain amount of time (the "Vesting Period").
+
+  * **Taxation Tip:** When they "vest" (become yours), the government treats them like a cash bonus and takes a cut immediately.
+
+* **ISOs (Incentive Stock Options):**
+
+  * **The Concept:** You get the *right* to buy stock at a super low price set years ago. If the company is now worth way more, you make a huge profit.
+
+* **Vesting & The "Cliff":**
+
+  * **The Cliff:** A common rule where you get *zero* shares if you leave before 1 year. After year 1, you "climb the cliff" and start getting your shares monthly or quarterly.
+
+## 4. Financial Operations (FinOps)
+
+How a business manages its day-to-day "wallet."
+
+* **Cash Conversion Cycle (CCC):**
+
+  * **Novice Explanation:** The time it takes for a business to spend $1 on inventory and get that $1 (plus profit) back from a customer. A shorter cycle means the business is "efficient" and has cash on hand.
+
+* **Working Capital:**
+
+  * **Formula:** `What you have now (Cash/Inventory) - What you owe now (Bills)`.
+
+  * If this is negative, the business might struggle to pay its immediate bills.
+
+* **Agentic Finance (The Future):** Using AI "Agents" to do the boring work. Imagine an AI that automatically emails customers who haven't paid their bills yet or finds errors in giant spreadsheets.
+
+## 5. Investment Planning and Wealth Management
+
+The art of growing your money while staying within your "comfort zone" for risk.
+
+* **Asset Allocation:**
+
+  * **The "Basket" Analogy:** Don't put all your eggs in one basket. Divide your money into different "baskets" like Stocks (High growth/High risk), Bonds (Slow growth/Lower risk), and Cash (Safe).
+
+* **Tax-Loss Harvesting:**
+
+  * **Novice Explanation:** If you have a stock that lost money, you can sell it to "show a loss" to the IRS. This loss can cancel out the taxes you owe on stocks that made money.
+
+* **Lombard Loans:**
+
+  * **The "Pawn Shop" for Rich People:** Instead of selling your stocks (and paying taxes on the profit), you use your stocks as collateral to take a low-interest loan. You get cash, keep your stocks, and avoid a big tax bill.
+
+## 6. Cash Flow & Cost Management
+
+Understanding where the money goes.
+
+* **Operating Cash Flow (CFO):** The actual cash coming in from selling products. A company can show "profit" on paper but have zero "cash" if customers haven't paid their bills yet.
+
+* **CapEx (Capital Expenditure):** Buying big things that last years (like a factory or a delivery truck).
+
+* **OpEx (Operating Expenditure):** The "monthly bills" to keep the lights on (rent, internet, salaries).
+
+* **Zero-Based Budgeting (ZBB):**
+
+  * **Novice Explanation:** Every month, you start your budget at $0. You have to prove why you need every single dollar you ask for, rather than just saying "give me 5% more than last month."
+
+## 7. Advanced Valuation & Market Analysis
+
+How to tell if a stock is "on sale" or "overpriced."
+
+* **Price-to-Earnings (P/E) Ratio:**
+
+  * **Novice Explanation:** How much you are paying for every $1 the company earns in profit. If P/E is 20, you are paying $20 for every $1 of current profit.
+
+* **Discounted Cash Flow (DCF):**
+
+  * **The "Time Machine" Theory:** A way to figure out what a company is worth today based on all the money it will make in the future. We "discount" the future money because $100 today is worth more than $100 ten years from now.
+
+* **Bull vs. Bear Markets:**
+
+  * **Bull (Charging Up):** When the market is rising and people are optimistic.
+
+  * **Bear (Hibernating/Slashing Down):** When the market is falling (usually 20% or more from recent highs) and people are fearful.
+
+## 8. Global Finance & Macroeconomics
+
+The big forces that move the whole world's money.
+
+* **Inflation:**
+
+  * **Novice Explanation:** Why a soda cost 5 cents in 1950 and $2 today. It’s the "hidden tax" of your money losing its buying power over time.
+
+* **Interest Rates (The "Cost of Money"):**
+
+  * Set by central banks (like the Federal Reserve). When rates are high, it’s expensive to borrow money (to buy houses or grow businesses), which usually slows down the economy.
+
+* **Compound Interest (The "Snowball Effect"):**
+
+  * **Novice Explanation:** Earning interest on your interest. If you start with $100 and earn 10%, next year you have $110. The year after, you earn 10% on $110 ($11), not just the original $100. Over 30 years, this "snowball" gets massive.
+
+## 9. Modern Portfolio Theory (MPT)
+
+* **Risk vs. Reward:** The fundamental law of finance. If you want a chance at huge gains, you *must* accept a chance of huge losses. There is no such thing as a "guaranteed" 50% return with zero risk.
+
+* **The Efficient Frontier:** A mathematical "sweet spot" where you get the most possible return for the level of risk you are willing to take.
