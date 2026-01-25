@@ -91,9 +91,15 @@ async def get_collection_info() -> DocumentListResponse:
         vector_store = VectorStoreService()
         info = vector_store.get_collection_info()
 
+        # In this RAG system, each point is a vector, so vectors_count equals points_count
+        # Use indexed_vectors_count if available and meaningful, otherwise use points_count
+        indexed_count = info.get("indexed_vectors_count")
+        vectors_count = indexed_count if indexed_count is not None and indexed_count > 0 else info["points_count"]
+        
         return DocumentListResponse(
             collection_name=info["name"],
             total_documents=info["points_count"],
+            vectors_count=vectors_count,
             status=info["status"],
         )
     except Exception as e:

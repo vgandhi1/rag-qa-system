@@ -84,7 +84,7 @@ It is designed for cloud-native deployment using **AWS App Runner**, **ECR**, an
 
 4. **Start the Server**:
    ```bash
-   uv run uvicorn app.main:app --reload
+   uv run python -m uvicorn app.main:app --reload
    ```
 
 ## 🌐 Access API
@@ -161,8 +161,9 @@ Once secrets are set, any push to the `main` branch will trigger the deployment 
 | Endpoint | Method | Description | Example |
 |----------|--------|-------------|---------|
 | 📤 `/documents/upload` | POST | Upload document | [See below](#upload-document) |
-| ℹ️ `/documents/info` | GET | Get collection stats | `curl /documents/info` |
-| 🗑️ `/documents/collection` | DELETE | Delete all documents | `curl -X DELETE /documents/collection` |
+| ℹ️ `/documents/info` | GET | Get collection stats | `curl http://localhost:8000/documents/info` |
+| 📋 `/documents/list` | GET | List all document names | `curl http://localhost:8000/documents/list` |
+| 🗑️ `/documents/collection` | DELETE | Delete all documents | `curl -X DELETE http://localhost:8000/documents/collection` |
 
 ### Query & Search
 
@@ -198,6 +199,22 @@ curl -X POST "http://localhost:8000/documents/upload" \
   "filename": "research_paper.pdf",
   "chunks_created": 42,
   "document_ids": ["uuid-1", "uuid-2", ...]
+}
+```
+
+### Get Collection Information
+
+```bash
+curl http://localhost:8000/documents/info
+```
+
+**Response:**
+```json
+{
+  "collection_name": "rag_documents",
+  "total_documents": 62,
+  "vectors_count": 62,
+  "status": "green"
 }
 ```
 
@@ -293,6 +310,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 2. **OpenAI API Error**: Check your `OPENAI_API_KEY` is valid and has sufficient credits.
 3. **Import Errors**: Ensure all dependencies are installed with `uv sync` or `pip install -r requirements.txt`.
 4. **Document Processing Fails**: Verify the file format is supported (PDF, TXT, CSV).
+5. **`uvicorn` command not found**: When using `uv run`, use `uv run python -m uvicorn` instead of `uv run uvicorn` directly. This ensures the module is properly resolved from the virtual environment.
 
 ### Logs
 

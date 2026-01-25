@@ -54,6 +54,7 @@ class DocumentListResponse(BaseModel):
 
     collection_name: str = Field(..., description="Collection name")
     total_documents: int = Field(..., description="Total document count")
+    vectors_count: int = Field(..., description="Total indexed vectors count")
     status: str = Field(..., description="Collection status")
 
 
